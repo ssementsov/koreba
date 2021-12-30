@@ -88,7 +88,7 @@ namespace Lesson04
             Console.Write($"{name} имеет трудустройство? :");
             bool isEmployment = Console.ReadLine().Contains("да");
 
-            //bool subsidyAllowed = isPensioner ^ isUnemployed ^ isEmployment;
+            bool subsidyAllowed = !isEmployment && (isPensioner | isUnemployed);
 
             Console.WriteLine($"Субсидия доступна: {subsidyAllowed}");
 
