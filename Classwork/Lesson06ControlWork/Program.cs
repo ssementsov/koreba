@@ -265,12 +265,14 @@ namespace Lesson06ControlWork
             {
                 if (Char.IsNumber(symbols[i]))
                 {
-                    t += i <= symbols.Length - 1 ? symbols[i].ToString() + SUM : symbols[i].ToString();
+                    t += i < symbols.Length - 1 ? symbols[i].ToString() + SUM : symbols[i].ToString();
                 }
             }
             Console.WriteLine(t);
 
             Console.ReadKey();
+
+            //-------------------------------------------------------
         }
 
         private static string Replace_A_Point(string line)
