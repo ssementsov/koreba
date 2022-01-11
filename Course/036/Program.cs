@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _035
+namespace _036
 {
     class Program
     {
@@ -8,28 +8,42 @@ namespace _035
         {
             Console.WriteLine("Calculator for multiplying the first matrix by the second.\n");
 
-            Console.Write($"{"Enter rows count of first matrix: ", -40}");
+            Console.Write($"{"Enter rows count of first matrix: ",-40}");
             uint rows_1 = uint.Parse(Console.ReadLine());
 
-            Console.Write($"{"Enter columns count of first matrix: ", -40} ");
+            Console.Write($"{"Enter columns count of first matrix: ",-40} ");
             uint columns_1 = uint.Parse(Console.ReadLine());
 
-            Console.Write($"{"Enter rows count of second matrix: ", -40}");
+            Console.Write($"{"Enter rows count of second matrix: ",-40}");
             uint rows_2 = uint.Parse(Console.ReadLine());
 
-            Console.Write($"{"Enter columns count of second matrix: ", -40}");
+            Console.Write($"{"Enter columns count of second matrix: ",-40}");
             uint columns_2 = uint.Parse(Console.ReadLine());
 
 
             if (IsMatrixMultAvailable(columns_1, rows_2))
             {
+                Console.Write($"{"Enter minimal value of matrix cell: ",-40}");
+                int min = int.Parse(Console.ReadLine());
+
+                Console.Write($"{"Enter maximum value of matrix cell: ",-40} ");
+                int max = int.Parse(Console.ReadLine());
+
+                Random random = new Random();
+
                 int[,] first = new int[rows_1, columns_1];
-                FillMatrix(first);
+                RandomizeMatrix(first, random, min, max);
 
                 int[,] second = new int[rows_2, columns_2];
-                FillMatrix(second);
+                RandomizeMatrix(second, random, min, max);
 
                 int[,] multResult = MatrixMult(first, second);
+
+                PrintMatrix(first);
+                Console.WriteLine("\n");
+
+                PrintMatrix(second);
+                Console.WriteLine("\n");
 
                 PrintMatrix(multResult);
 
@@ -46,18 +60,18 @@ namespace _035
             return firstMatrixColumns == secondMatrixRows;
         }
 
-        private static void FillMatrix(int[,] matrix)
+        private static void RandomizeMatrix(int[,] matrix, Random random, int minValue = 0, int maxValue = 1)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    Console.Write($"Enter the value of the matrix cell {i};{j} {":",-5}");
-                    int value = int.Parse(Console.ReadLine());
+                    int value = random.Next(minValue, maxValue);
                     matrix[i, j] = value;
                 }
             }
         }
+
 
         private static int[,] MatrixMult(int[,] first, int[,] second)
         {
