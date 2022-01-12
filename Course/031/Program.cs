@@ -19,20 +19,23 @@ namespace _031
 
             Array.Sort(array);
             Array.Reverse(array);
-
-            int[] changedArray = new int[array.Length + 1];
-            array.CopyTo(changedArray, 0);
+            Array.Resize(ref array, array.Length + 1);
 
             Console.Write("Enter the last element of the new array: ");
             int lastElement = int.Parse(Console.ReadLine());
-            changedArray[changedArray.Length - 1] = lastElement;
+            array[array.Length - 1] = lastElement;
 
-            foreach (int elem in changedArray)
+            PrintArray(array);
+
+            Console.ReadKey();
+        }
+
+        private static void PrintArray(int[] array)
+        {
+            foreach (int elem in array)
             {
                 Console.Write($"{elem}; ");
             }
-
-            Console.ReadKey();
         }
     }
 }
