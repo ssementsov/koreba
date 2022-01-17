@@ -9,15 +9,15 @@ namespace _039
 
         }
 
-        private static void PrintResult(ref int a, int b, int c)
+        private static void PrintResult(int a, int b, int c)
         {
             int sum = a + b + c;
             Console.WriteLine(sum);
         }
 
-        private static void PrintResult(int a, ref int b, int c)
+        private static void PrintResult(long a, long b, long c)
         {
-            int difference = a - b - c;
+            long difference = a - b - c;
             Console.WriteLine(difference);
         }
 
@@ -27,7 +27,7 @@ namespace _039
             Console.WriteLine(result);
         }
 
-        private static void PrintResult(int a, int b, ref int c)
+        private static void PrintResult(byte a, byte b, byte c)
         {
             Console.WriteLine($"\"{a}\" + \"{b}\" + \"{c}\"");
         }
