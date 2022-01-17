@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02ED4D75-629B-4102-850A-91594350AD31}</ProjectGuid>
+    <ProjectGuid>{9898CC32-FCAE-4B27-A639-88C012A905AF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_01</RootNamespace>
-    <AssemblyName>01</AssemblyName>
+    <RootNamespace>_041</RootNamespace>
+    <AssemblyName>041</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -47,9 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
