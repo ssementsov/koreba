@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Task_07
 {
@@ -13,6 +14,18 @@ namespace Task_07
             Id = id;
             Name = name;
             Positions = positions;
+        }
+
+        public int GetTotalWorkDays()
+        {
+            int totalWorkDays = 0;
+
+            foreach (Position position in Positions)
+            {
+                totalWorkDays += (int)position.GetWorkDays();
+            }
+
+            return totalWorkDays;
         }
     }
 }
