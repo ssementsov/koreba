@@ -20,7 +20,6 @@ namespace Task_07
             Console.ReadKey();
         }
 
-
         private static void BoubleSort(List<Employee> employees)
         {
             for (int i = employees.Count - 1; i >= 0; i--)

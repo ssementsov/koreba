@@ -22,7 +22,7 @@ namespace Task_07
 
             foreach (Position position in Positions)
             {
-                totalWorkDays += (int)position.GetWorkDays();
+                totalWorkDays += position.GetWorkDays();
             }
 
             return totalWorkDays;

@@ -18,7 +18,7 @@ namespace Task_07
         public int GetWorkDays()
         {
             DateTime to = To is null ? DateTime.Now : (DateTime)To;
-            TimeSpan workTime = (to - From);
+            TimeSpan workTime = to - From;
 
             int days = (int)workTime.TotalDays;
             return days;
