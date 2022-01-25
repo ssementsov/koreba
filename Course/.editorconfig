@@ -1,5 +1,8 @@
 ﻿[*.cs]
 
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = none
+
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = none
 
