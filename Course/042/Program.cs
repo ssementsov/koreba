@@ -11,19 +11,24 @@ namespace Task_042
             Console.WriteLine("Enter the sentence: ");
             string sentence = Console.ReadLine();
 
-            char[] separators = { SPACE };
-            string[] words = sentence.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            char[] symbols = sentence.ToCharArray();
 
-            PrintArray(words);
-            Console.ReadKey();
-        }
+            string word = null;
 
-        private static void PrintArray<T>(T[] array)
-        {
-            foreach (T item in array)
+            for (int i = 1; i < symbols.Length; i++)
             {
-                Console.WriteLine(item.ToString());
+                if ((symbols[i - 1] == SPACE && word is null) || (symbols[i] != SPACE && word != null))
+                {
+                    word += symbols[i];
+                }
+                else if (symbols[i] == SPACE && word != null)
+                {
+                    break;
+                }
             }
+
+            Console.WriteLine(word);
+            Console.ReadKey();
         }
     }
 }
