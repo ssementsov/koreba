@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lesson011.Warehouse
 {
@@ -11,6 +12,16 @@ namespace Lesson011.Warehouse
         {
             Name = name;
             Signature = signature;
+        }
+
+        public void PutSignature(Waybill waybill)
+        {
+
+        }
+
+        public Waybill CreateWaybill(uint id, Worker to, Dictionary<Product, uint> products)
+        {
+            return new Waybill(id, this, to, products);
         }
     }
 }

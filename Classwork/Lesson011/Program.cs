@@ -20,31 +20,36 @@ namespace Lesson011
             //Console.WriteLine($"Area = {rectangle.Area}; Perimeter = {rectangle.Perimeter}");
 
 
-            var ak = new Weapon();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Reload();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Reload();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Reload();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Reload();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Fire();
-            ak.Reload();
+            //var ak = new Weapon();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Reload();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Reload();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Reload();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Reload();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Fire();
+            //ak.Reload();
+
+
+
+
+
 
             Console.ReadKey();
         }
