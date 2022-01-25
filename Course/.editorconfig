@@ -1,8 +1,5 @@
 ﻿[*.cs]
 
-# IDE0005: Using directive is unnecessary.
-dotnet_diagnostic.IDE0005.severity = none
-
 # Default severity for analyzer diagnostics with category 'Style'
 dotnet_analyzer_diagnostic.category-Style.severity = none
 
@@ -14,3 +11,9 @@ dotnet_diagnostic.SA1200.severity = none
 
 # SA1633: File should have header
 dotnet_diagnostic.SA1633.severity = none
+
+# SA0001: File should have header
+dotnet_diagnostic.SA0001.severity =none
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = none

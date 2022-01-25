@@ -4,17 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4DAF16C1-4B8D-4CD6-9F2E-4D6FF94992AD}</ProjectGuid>
+    <ProjectGuid>{A05E55B1-199D-44AB-B7C1-CA60B7E92BB1}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Task_041</RootNamespace>
-    <AssemblyName>041</AssemblyName>
+    <RootNamespace>_042</RootNamespace>
+    <AssemblyName>042</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
