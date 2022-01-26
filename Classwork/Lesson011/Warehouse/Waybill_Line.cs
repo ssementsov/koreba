@@ -6,6 +6,9 @@ namespace Lesson011.Warehouse
     {
         private uint _id;
 
+        public Product Product { get; private set; }
+        public uint Count { get; private set; }
+
         public Waybill_Line(uint id, Product product, uint count)
         {
             _id = id;
@@ -13,18 +16,14 @@ namespace Lesson011.Warehouse
             Count = count;
         }
 
-        public Product Product { get; private set; }
-        public uint Count { get; private set; }
+        public override string ToString()
+        {
+            return $"{_id,-5}{"|",-5}{Product.Name,-5}{"|",-5}{Count,-5}{"|",-5}{Product.Price,-5}{"|",-5}{GetSum(),-5}";
+        }
 
         private uint GetSum()
         {
             return Product.Price * Count;
-        }
-
-        public override string ToString()
-        {
-            string line = $"{_id, -5}{"|", -5}{Product.Name, -5}{"|", -5}{Count, -5}{"|", -5}{Product.Price, -5}{"|", -5}{GetSum(), -5}";
-            return line;
         }
     }
 }

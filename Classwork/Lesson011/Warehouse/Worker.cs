@@ -5,19 +5,26 @@ namespace Lesson011.Warehouse
 {
     public class Worker
     {
+        private string _signature;
+
         public string Name { get; private set; }
-        public string Signature { get; private set; }
 
         public Worker(string name, string signature)
         {
             Name = name;
-            Signature = signature;
+            _signature = signature;
         }
 
-        public void PutSignature(Waybill waybill)
+        public void PutReleaseSignature(Waybill waybill)
         {
-
+            waybill.SignatureFrom = _signature;
         }
+
+        public void PutEnterSignature(Waybill waybill)
+        {
+            waybill.SignatureTo = _signature;
+        }
+
 
         public Waybill CreateWaybill(uint id, Worker to, Dictionary<Product, uint> products)
         {
