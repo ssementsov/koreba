@@ -61,12 +61,12 @@ namespace Control_Task_4
             }
         }
 
-        public void ReturnBooks(params Book[] books)
+        public void ReturnBook(params Book[] books)
         {
             Console.Write($"{FirstName} {Surname} {MiddleName} return books: ");
             foreach (var book in books)
             {
-                Console.Write($"{book}, ");
+                Console.Write($"{book.Title}, ");
             }
         }
 
