@@ -23,3 +23,6 @@ dotnet_diagnostic.SA1413.severity = none
 
 # SA1309: Field names should not begin with underscore
 dotnet_diagnostic.SA1309.severity = none
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = when_on_single_line
