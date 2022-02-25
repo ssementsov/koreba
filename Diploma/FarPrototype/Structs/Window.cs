@@ -11,5 +11,11 @@ namespace FarPrototype.WindowStructures
         public Header Header { get; set; }
         public View[] Views { get; set; }
         public Footer Footer { get; set; }
+
+
+        public void UpdateState()
+        {
+
+        }
     }
 }

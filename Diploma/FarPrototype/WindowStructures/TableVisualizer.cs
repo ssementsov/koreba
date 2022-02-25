@@ -1,12 +1,12 @@
 ﻿namespace FarPrototype.WindowStructures
 {
-    internal abstract class Table
+    internal abstract class TableVisualizer
     {
         protected string[,] data;
         protected int[] columnsWidth;
         protected int columnsCount = 1;
 
-        public Table(DirectoryInfo[] directories, FileInfo[] files)
+        public TableVisualizer(DirectoryInfo[] directories, FileInfo[] files)
         {
             columnsWidth = new int[columnsCount];
             FillData(directories, files);

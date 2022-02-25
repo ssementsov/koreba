@@ -1,6 +1,6 @@
 ﻿namespace FarPrototype.WindowStructures
 {
-    internal sealed class FullTable : Table
+    internal sealed class FullTable : TableVisualizer
     {
         protected new int columnsCount = 5;
         public FullTable(DirectoryInfo[] directories, FileInfo[] files)
