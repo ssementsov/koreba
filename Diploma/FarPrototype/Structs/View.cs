@@ -18,7 +18,7 @@ namespace FarPrototype
 
         //public Vector2 Origin { get; private set; }
 
-        public View(int heigthScale, int widthScale)
+        public View(float heigthScale, float widthScale)
         {
             HeightScale = heigthScale;
             WidthScale = widthScale;

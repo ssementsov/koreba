@@ -2,30 +2,44 @@
 {
     internal class Body
     {
-        private List<Element> _elements;
+        private List<Element> _directories;
 
         public Body()
         {
-            _elements = new List<Element>();
+            _directories = new List<Element>();
         }
         public Element this[int i]
         {
-            get => _elements[i];
+            get => _directories[i];
         }
+        public int GetLength() => _directories.Count;
 
         public void UpdateState(DirectoryInfo[] directories, FileInfo[] files)
         {
-            _elements.Clear();
+            _directories.Clear();
 
             foreach (var dir in directories)
             {
-                _elements.Add(new Element(dir));
+                _directories.Add(new Element(dir));
             }
 
             foreach (var dir in files)
             {
-                _elements.Add(new Element(dir));
+                _directories.Add(new Element(dir));
             }
+        } 
+
+        public int GetHighlitedElementNumber()
+        {
+            for (int i = 0; i < _directories.Count; i++)
+            {
+                if (_directories[i].IsHighlighted)
+                {
+                    return i;
+                }
+            }
+
+            throw new IndexOutOfRangeException("No one of the body elements are highlighted");
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using FarPrototype.WindowStructures;
+﻿using FarPrototype.Structs;
 
-namespace FarPrototype.Drawers
+namespace FarPrototype.Visualizers
 {
     internal class HeaderVisualizer
     {

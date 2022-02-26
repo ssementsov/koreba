@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FarPrototype.WindowStructures
+﻿namespace FarPrototype.Structs
 {
     internal class Window
     {
@@ -12,10 +6,12 @@ namespace FarPrototype.WindowStructures
         public View[] Views { get; set; }
         public Footer Footer { get; set; }
 
-
         public void UpdateState()
         {
-
+            foreach (var view in Views)
+            {
+                view.UpdateState();
+            }
         }
     }
 }

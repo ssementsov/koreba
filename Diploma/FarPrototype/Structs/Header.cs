@@ -1,4 +1,4 @@
-﻿namespace FarPrototype.WindowStructures
+﻿namespace FarPrototype.Structs
 {
     internal class Header
     {
