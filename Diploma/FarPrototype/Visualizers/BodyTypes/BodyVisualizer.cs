@@ -1,19 +1,21 @@
 ﻿namespace FarPrototype.Visualizers.BodyTypes
 {
-    internal abstract class BodyVisualizer
+    internal abstract class BodyVisualizer : Visualizer
     {
         protected View View;
         protected string[] TableHeader;
         protected string[,] Table;
-        protected int[] ColumnsWidth;
+        public int[] ColumnsWidth;
         public BodyVisualizer(View view)
         {
             View = view;
+            InitializeHeader();
+            InitializeColumnsWidth();
         }
         public abstract void Draw();
         protected abstract void InitializeHeader();
+        protected abstract void InitializeColumnsWidth();
 
-
-        public abstract void Test();
+        public abstract void PrepareTable();
     }
 }

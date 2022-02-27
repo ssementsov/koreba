@@ -14,9 +14,9 @@ namespace FarPrototype.Visualizers
             BodyVisualizer = new FullBodyVisualizer(window.Views[0]);
         }
 
-        public void PrintBody()
+        public void PrepareBody()
         {
-            BodyVisualizer.Test();
+            BodyVisualizer.PrepareTable();
         }
     }
 }

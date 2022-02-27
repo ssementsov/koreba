@@ -44,7 +44,8 @@ namespace FarPrototype
             window.UpdateState();
 
             var vv = new ViewVisualizer(window);
-            vv.PrintBody();
+            vv.PrepareBody();
+            vv.BodyVisualizer.Draw();
         }
     }
 }
