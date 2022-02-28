@@ -37,9 +37,10 @@ namespace FarPrototype
             //string b = "\u255f\u2500\u2500\u2568\u2500\u2500\u2562";
             //Console.WriteLine(b);
 
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             var window = new Window();
-            View view = new View(1, 0.5f);
+            View view = new View(1, 0.3f);
             window.Views = new View[] { view };
             window.UpdateState();
 

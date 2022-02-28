@@ -17,8 +17,18 @@ namespace FarPrototype.Visualizers.BodyTypes
             int count = View.Width - path.Length - 4;
             int half = count / 2;
 
-            string firstLine = $"{Border.TopLeftCorner}{new string(Border.HorizontalDoubleLine, half)}" +
-                               $" {path} ";
+            string firstLine = string.Empty;
+            if (path.Length + 4 > View.Width)
+            {
+                int index = path.Length - View.Width + 4;
+                firstLine = $"{Border.TopLeftCorner} {path[0..3]}\u2026{path[(3+index + 1)..]} ";
+            }
+            else
+            {
+                firstLine = $"{Border.TopLeftCorner}{new string(Border.HorizontalDoubleLine, half)}" +
+                                   $" {path} ";
+            }
+
             int length = 1;
             for (int i = 0; i < TableHeader.Length; i++)
             {
@@ -28,11 +38,17 @@ namespace FarPrototype.Visualizers.BodyTypes
                     length++;
                 }
 
-                firstLine += new string(Border.HorizontalDoubleLine, length - firstLine.Length - 1);
-                if (i < TableHeader.Length - 1 && TableHeader[i + 1].Length > 0 && i != TableHeader.Length - 1)
+                if (length > firstLine.Length)
                 {
-                    firstLine += Border.DoubleHorizontalDownSingle;
+                    firstLine += new string(Border.HorizontalDoubleLine, length - firstLine.Length - 1);
+
+                    if (i < TableHeader.Length - 1 && TableHeader[i + 1].Length > 0)
+                    {
+                        firstLine += Border.DoubleHorizontalDownSingle;
+                    }
                 }
+                
+
             }
             firstLine += $"{Border.TopRightCorner}\n";
             Write(firstLine, VisualSettings.BorderForeground);
@@ -57,7 +73,14 @@ namespace FarPrototype.Visualizers.BodyTypes
                 Write($"{Border.VerticalDoubleLine}");
                 for (int j = 0; j < Table.GetLength(1); j++)
                 {
-                    Write($"{Table[i, j]}{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
+                    if (Table[i, j].Length > ColumnsWidth[j])
+                    {
+                        Write($"{Table[i, j][0..(ColumnsWidth[j] - 2)]}\u2026.", VisualSettings.TextForeground);
+                    }
+                    else
+                    {
+                        Write($"{Table[i, j]}{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
+                    }
                     if (j > 0 && j < Table.GetLength(1) - 1)
                     {
                         Write($"{Border.VerticalSingleLine}", VisualSettings.BorderForeground);
@@ -116,7 +139,7 @@ namespace FarPrototype.Visualizers.BodyTypes
             if (parent != null)
             {
                 Table[row, 0] = "..";
-                Table[row, 1] = String.Empty;
+                Table[row, 1] = string.Empty;
                 Table[row, 2] = "Up";
                 Table[row, 3] = $"{parent.CreationTime:dd.MM.yy}";
                 Table[row, 4] = $"{parent.CreationTime:t}";
@@ -131,7 +154,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 DirectoryInfo dir = info as DirectoryInfo;
                 if (dir != null)
                 {
-                    Table[row, 1] = String.Empty;
+                    Table[row, 1] = string.Empty;
                     Table[row, 2] = "Folder";
                 }
                 else
