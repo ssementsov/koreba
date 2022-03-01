@@ -9,9 +9,9 @@ namespace FarPrototype.Visualizers
         public BodyVisualizer BodyVisualizer { get; set; }
         public FooterVisualizer FooterVizualizer { get; set;}
 
-        public ViewVisualizer(Window window)
+        public ViewVisualizer(View view)
         {
-            BodyVisualizer = new FullBodyVisualizer(window.Views[0]);
+            BodyVisualizer = new FullBodyVisualizer(view.Body, view.Height, view.Width);
         }
 
         public void PrepareBody()

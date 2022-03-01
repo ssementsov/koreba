@@ -1,12 +1,13 @@
 ﻿using FarPrototype.Settings;
+using FarPrototype.Structs;
 
 namespace FarPrototype.Visualizers.BodyTypes
 {
     internal class FullBodyVisualizer : BodyVisualizer
     {
 
-        public FullBodyVisualizer(View view) 
-            : base(view) { }
+        public FullBodyVisualizer(Body body, int height, int width) 
+            : base(body, height, width) { }
 
         public override void Draw()
         {
@@ -14,13 +15,13 @@ namespace FarPrototype.Visualizers.BodyTypes
 
             string path = Directory.GetCurrentDirectory();
 
-            int count = View.Width - path.Length - 4;
+            int count = Width - path.Length - 4;
             int half = count / 2;
 
             string firstLine = string.Empty;
-            if (path.Length + 4 > View.Width)
+            if (path.Length + 4 > Width)
             {
-                int index = path.Length - View.Width + 4;
+                int index = path.Length - Width + 4;
                 firstLine = $"{Border.TopLeftCorner} {path[0..3]}\u2026{path[(3+index + 1)..]} ";
             }
             else
@@ -73,14 +74,11 @@ namespace FarPrototype.Visualizers.BodyTypes
                 Write($"{Border.VerticalDoubleLine}");
                 for (int j = 0; j < Table.GetLength(1); j++)
                 {
-                    if (Table[i, j].Length > ColumnsWidth[j])
+                    Write($"{Table[i, j]}", VisualSettings.TextForeground);
+                    if (Table[i, j].Length < ColumnsWidth[j])
                     {
-                        Write($"{Table[i, j][0..(ColumnsWidth[j] - 2)]}\u2026.", VisualSettings.TextForeground);
-                    }
-                    else
-                    {
-                        Write($"{Table[i, j]}{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
-                    }
+                        Write($"{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
+                    } 
                     if (j > 0 && j < Table.GetLength(1) - 1)
                     {
                         Write($"{Border.VerticalSingleLine}", VisualSettings.BorderForeground);
@@ -120,17 +118,19 @@ namespace FarPrototype.Visualizers.BodyTypes
         {
             FillTable();
             CalculateColumnsWidth();
+            AdjustName();
+            AbjustSize();
         }
 
         private void FillTable()
         {
-            int rowsCount = View.Body.GetLength();
+            int rowsCount = Body.GetLength();
 
             string path = Directory.GetCurrentDirectory();
             bool isRoot = Directory.GetParent(path) == null;
             rowsCount = isRoot ? rowsCount : ++rowsCount;
 
-            rowsCount = Math.Min(View.Height - 4, rowsCount);
+            //rowsCount = Math.Min(Height - 5, rowsCount);
 
             Table = new string[rowsCount, TableHeader.Length];
 
@@ -142,17 +142,16 @@ namespace FarPrototype.Visualizers.BodyTypes
                 Table[row, 1] = string.Empty;
                 Table[row, 2] = "Up";
                 Table[row, 3] = $"{parent.CreationTime:dd.MM.yy}";
-                Table[row, 4] = $"{parent.CreationTime:t}";
+                Table[row, 4] = $"{parent.CreationTime:hh:mm}";
                 row++;
             }
 
-            for (int i = 0; i < View.Body.GetLength(); i++, row++)
+            for (int i = 0; i < Body.GetLength(); i++, row++)
             {
-                FileSystemInfo info = View.Body[i].Info;
+                FileSystemInfo info = Body[i].Info;
                 Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
 
-                DirectoryInfo dir = info as DirectoryInfo;
-                if (dir != null)
+                if (info is DirectoryInfo dir)
                 {
                     Table[row, 1] = string.Empty;
                     Table[row, 2] = "Folder";
@@ -165,7 +164,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 }
 
                 Table[row, 3] = $"{info.CreationTime:dd.MM.yy}";
-                Table[row, 4] = $"{info.CreationTime:t}";
+                Table[row, 4] = $"{info.CreationTime:hh:mm}";
             }
         }
 
@@ -182,12 +181,78 @@ namespace FarPrototype.Visualizers.BodyTypes
             }
             ColumnsWidth[1] = max;
 
-            int length = View.Width - ColumnsWidth.Length;
+            int length = Width - ColumnsWidth.Length;
             for (int i = ColumnsWidth.Length - 1; i > 0; i--)
             {
                 length -= ColumnsWidth[i];
             }
             ColumnsWidth[0] = length;
+        }
+
+        private void AdjustName()
+        {
+            for (int i = 0; i < Table.GetLength(0); i++)
+            {
+                string name = Table[i, 0];
+                if (name.Length > ColumnsWidth[0])
+                {
+                    Table[i, 0] = $"{name[0..(ColumnsWidth[0] - 2)]}\u2026.";
+                }
+            }
+        }
+
+        private void AbjustSize()
+        {
+            for (int i = 0; i < Table.GetLength(0); i++)
+            {
+                if (Table[i, 2].Length > ColumnsWidth[2])
+                {
+                    Table[i, 2] = ChangeSizeFormat(Table[i, 2]);
+                }
+                Table[i, 2] = $"{new string(' ', ColumnsWidth[2] - Table[i, 2].Length)}{Table[i, 2]}";
+            }
+        }
+
+        private string ChangeSizeFormat(string size)
+        {
+            long value = long.Parse(size);
+            int count = 0;
+
+            if (value / 1000000 >= 1)
+            {
+                value /= 1024;
+                count++;
+
+                while (value / 10000 >= 1)
+                {
+                    value /= 1024;
+                    count++;
+                }
+            }
+            string result = value.ToString();
+
+            string postfix = string.Empty;
+            switch (count)
+            {
+                case 0:
+                    break;
+                case 1:
+                    postfix = " K";
+                    break;
+                case 2:
+                    postfix = " M";
+                    break;
+                case 3:
+                    postfix = " G";
+                    break;
+                case 4:
+                    postfix = " T";
+                    break;
+                default:
+                    break;
+            }
+            result += postfix;
+            return result;
         }
     }
 }
