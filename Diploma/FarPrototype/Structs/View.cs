@@ -13,7 +13,7 @@ namespace FarPrototype
         private float HeightScale { set => _heightScale = Math.Clamp(value, MIN_SCALE, 1f); }
         private float WidthScale { set => _widthScale = Math.Clamp(value, MIN_SCALE, 1f); }
 
-        public Body Body { get; private set; }
+        public ViewBody Body { get; private set; }
         public bool IsActive { get; set; }
 
         //public Vector2 Origin { get; private set; }
@@ -23,7 +23,7 @@ namespace FarPrototype
             HeightScale = heigthScale;
             WidthScale = widthScale;
             IsActive = false;
-            Body = new Body();
+            Body = new ViewBody();
         }
 
         public void UpdateState()

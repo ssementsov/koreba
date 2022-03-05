@@ -1,10 +1,10 @@
 ﻿namespace FarPrototype.Structs
 {
-    internal class Body
+    internal class ViewBody
     {
         private List<Element> _directories;
 
-        public Body()
+        public ViewBody()
         {
             _directories = new List<Element>();
         }
@@ -23,9 +23,9 @@
                 _directories.Add(new Element(dir));
             }
 
-            foreach (var dir in files)
+            foreach (var file in files)
             {
-                _directories.Add(new Element(dir));
+                _directories.Add(new Element(file));
             }
         } 
 

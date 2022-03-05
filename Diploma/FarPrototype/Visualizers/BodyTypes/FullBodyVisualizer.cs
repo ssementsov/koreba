@@ -1,12 +1,15 @@
 ﻿using FarPrototype.Settings;
 using FarPrototype.Structs;
+using System.Linq;
 
 namespace FarPrototype.Visualizers.BodyTypes
 {
     internal class FullBodyVisualizer : BodyVisualizer
     {
+        private const string DATE_FORMAT = "dd.MM.yy";
+        private const string TIME_FORMAT = "hh:mm";
 
-        public FullBodyVisualizer(Body body, int height, int width) 
+        public FullBodyVisualizer(ViewBody body, int height, int width) 
             : base(body, height, width) { }
 
         public override void Draw()
@@ -110,7 +113,7 @@ namespace FarPrototype.Visualizers.BodyTypes
         {
             ColumnsWidth = new int[]
             {
-                0, 0, 6, 8, 5
+                0, 0, 6, DATE_FORMAT.Length, TIME_FORMAT.Length
             };
         }
 
@@ -124,16 +127,9 @@ namespace FarPrototype.Visualizers.BodyTypes
 
         private void FillTable()
         {
-            int rowsCount = Body.GetLength();
+            InitializeTable();
 
             string path = Directory.GetCurrentDirectory();
-            bool isRoot = Directory.GetParent(path) == null;
-            rowsCount = isRoot ? rowsCount : ++rowsCount;
-
-            //rowsCount = Math.Min(Height - 5, rowsCount);
-
-            Table = new string[rowsCount, TableHeader.Length];
-
             DirectoryInfo parent = Directory.GetParent(path);
             int row = 0;
             if (parent != null)
@@ -141,8 +137,8 @@ namespace FarPrototype.Visualizers.BodyTypes
                 Table[row, 0] = "..";
                 Table[row, 1] = string.Empty;
                 Table[row, 2] = "Up";
-                Table[row, 3] = $"{parent.CreationTime:dd.MM.yy}";
-                Table[row, 4] = $"{parent.CreationTime:hh:mm}";
+                Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
+                Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
                 row++;
             }
 
@@ -163,9 +159,22 @@ namespace FarPrototype.Visualizers.BodyTypes
                     Table[row, 2] = file.Length.ToString();
                 }
 
-                Table[row, 3] = $"{info.CreationTime:dd.MM.yy}";
-                Table[row, 4] = $"{info.CreationTime:hh:mm}";
+                Table[row, 3] = $"{info.CreationTime.ToString(DATE_FORMAT)}";
+                Table[row, 4] = $"{info.CreationTime.ToString(TIME_FORMAT)}";
             }
+        }
+
+        private void InitializeTable()
+        {
+            int rowsCount = Body.GetLength();
+
+            string path = Directory.GetCurrentDirectory();
+            bool isRoot = Directory.GetParent(path) == null;
+            rowsCount = isRoot ? rowsCount : ++rowsCount;
+
+            //rowsCount = Math.Min(Height - 5, rowsCount);
+
+            Table = new string[rowsCount, TableHeader.Length];
         }
 
         private void CalculateColumnsWidth()

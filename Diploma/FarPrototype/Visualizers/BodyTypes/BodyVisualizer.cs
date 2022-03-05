@@ -4,14 +4,16 @@ namespace FarPrototype.Visualizers.BodyTypes
 {
     internal abstract class BodyVisualizer : Visualizer
     {
-        protected Body Body { get; private set; }
+        protected ViewBody Body { get; private set; }
         protected int Height { get; private set; }
         protected int Width { get; private set; }
         protected string[] TableHeader;
         protected string[,] Table;
         public int[] ColumnsWidth;
 
-        public BodyVisualizer(Body body, int heigth, int width)
+        protected BodyHeaderVisualizer pathLine;
+
+        public BodyVisualizer(ViewBody body, int heigth, int width)
         {
             Body = body;
             Height = heigth;

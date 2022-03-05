@@ -3,7 +3,7 @@ using FarPrototype.Visualizers.BodyTypes;
 
 namespace FarPrototype.Visualizers
 {
-    internal class ViewVisualizer
+    internal class ViewVisualizer : IDrawer
     {
         public HeaderVisualizer HeaderVisualizer { get; set; }
         public BodyVisualizer BodyVisualizer { get; set; }
@@ -17,6 +17,11 @@ namespace FarPrototype.Visualizers
         public void PrepareBody()
         {
             BodyVisualizer.PrepareTable();
+        }
+
+        public void Draw()
+        {
+            BodyVisualizer.Draw();
         }
     }
 }
