@@ -1,4 +1,4 @@
-﻿namespace FarPrototype.Visualizers.BodyTypes
+﻿namespace FarPrototype.Visualizers
 {
     internal abstract class Visualizer
     {

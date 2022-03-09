@@ -2,10 +2,9 @@
 {
     internal static class DirectoryReader
     {
-        public static DirectoryInfo[] GetDirectories()
+        public static DirectoryInfo[] GetDirectories(string currentDirectoryPath)
         {
-            string path = Directory.GetCurrentDirectory();
-            string[] pathes = Directory.GetDirectories(path);
+            string[] pathes = Directory.GetDirectories(currentDirectoryPath);
             DirectoryInfo[] info = new DirectoryInfo[pathes.Length];
 
             for (var i = 0; i < pathes.Length; i++)
@@ -16,10 +15,9 @@
             return info;
         }
 
-        public static FileInfo[] GetFiles()
+        public static FileInfo[] GetFiles(string currentDirectoryPath)
         {
-            string path = Directory.GetCurrentDirectory();
-            string[] pathes = Directory.GetFiles(path);
+            string[] pathes = Directory.GetFiles(currentDirectoryPath);
             FileInfo[] info = new FileInfo[pathes.Length];
 
             for (var i = 0; i < pathes.Length; i++)

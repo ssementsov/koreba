@@ -11,8 +11,6 @@ namespace FarPrototype.Visualizers.BodyTypes
         protected string[,] Table;
         public int[] ColumnsWidth;
 
-        protected BodyHeaderVisualizer pathLine;
-
         public BodyVisualizer(ViewBody body, int heigth, int width)
         {
             Body = body;

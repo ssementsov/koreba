@@ -5,23 +5,22 @@ namespace FarPrototype.Visualizers
 {
     internal class ViewVisualizer : IDrawer
     {
-        public HeaderVisualizer HeaderVisualizer { get; set; }
-        public BodyVisualizer BodyVisualizer { get; set; }
-        public FooterVisualizer FooterVizualizer { get; set;}
+        public BodyVisualizer Body { get; set; }
+        public FooterVisualizer Footer { get; set;}
 
         public ViewVisualizer(View view)
         {
-            BodyVisualizer = new FullBodyVisualizer(view.Body, view.Height, view.Width);
+            Body = new FullBodyVisualizer(view.Body, view.Height, view.Width);
         }
 
         public void PrepareBody()
         {
-            BodyVisualizer.PrepareTable();
+            Body.PrepareTable();
         }
 
         public void Draw()
         {
-            BodyVisualizer.Draw();
+            Body.Draw();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace FarPrototype
         public int Width => (int)(Console.WindowWidth * _widthScale);
         private float HeightScale { set => _heightScale = Math.Clamp(value, MIN_SCALE, 1f); }
         private float WidthScale { set => _widthScale = Math.Clamp(value, MIN_SCALE, 1f); }
+        public string CurrentDirectoryPath { get; private set; }
 
         public ViewBody Body { get; private set; }
         public bool IsActive { get; set; }
@@ -24,12 +25,16 @@ namespace FarPrototype
             WidthScale = widthScale;
             IsActive = false;
             Body = new ViewBody();
+
+            UpdateState(Directory.GetCurrentDirectory());
         }
 
-        public void UpdateState()
+        public void UpdateState(string currentDirectoryPath)
         {
-            DirectoryInfo[] directories = DirectoryReader.GetDirectories();
-            FileInfo[] files = DirectoryReader.GetFiles();
+            CurrentDirectoryPath = currentDirectoryPath;
+
+            DirectoryInfo[] directories = DirectoryReader.GetDirectories(CurrentDirectoryPath);
+            FileInfo[] files = DirectoryReader.GetFiles(CurrentDirectoryPath);
 
             Body.UpdateState(directories, files);
         }
