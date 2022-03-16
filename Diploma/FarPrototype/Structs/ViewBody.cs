@@ -3,10 +3,12 @@
     internal class ViewBody
     {
         private List<Element> _directories;
+        private int _highlitedNumber;
 
         public ViewBody()
         {
             _directories = new List<Element>();
+            HighliteElement(0);
         }
         public Element this[int i]
         {
@@ -14,9 +16,18 @@
         }
         public int GetLength() => _directories.Count;
 
-        public void UpdateState(DirectoryInfo[] directories, FileInfo[] files)
+        public void UpdateState(string currentDirectoryPath)
         {
             _directories.Clear();
+
+            var directories = DirectoryReader.GetDirectories(currentDirectoryPath);
+            var files = DirectoryReader.GetFiles(currentDirectoryPath);
+            var parent = Directory.GetParent(currentDirectoryPath);
+
+            if (parent != null)
+            {
+                _directories.Add(new Element(parent));
+            }
 
             foreach (var dir in directories)
             {
@@ -29,17 +40,15 @@
             }
         } 
 
-        public int GetHighlitedElementNumber()
+        public Element GetHighlitedElement()
         {
-            for (int i = 0; i < _directories.Count; i++)
-            {
-                if (_directories[i].IsHighlighted)
-                {
-                    return i;
-                }
-            }
+            return this[_highlitedNumber];
+        }
 
-            throw new IndexOutOfRangeException("No one of the body elements are highlighted");
+        public void HighliteElement(int number)
+        {
+            this[number].SetIsHighlited(true);
+            _highlitedNumber = number;
         }
     }
 }

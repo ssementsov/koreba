@@ -132,15 +132,15 @@ namespace FarPrototype.Visualizers.BodyTypes
             string path = Directory.GetCurrentDirectory();
             DirectoryInfo parent = Directory.GetParent(path);
             int row = 0;
-            if (parent != null)
-            {
-                Table[row, 0] = "..";
-                Table[row, 1] = string.Empty;
-                Table[row, 2] = "Up";
-                Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
-                Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
-                row++;
-            }
+            //if (parent != null)
+            //{
+            //    Table[row, 0] = "..";
+            //    Table[row, 1] = string.Empty;
+            //    Table[row, 2] = "Up";
+            //    Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
+            //    Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
+            //    row++;
+            //}
 
             for (int i = 0; i < Body.GetLength(); i++, row++)
             {
@@ -167,12 +167,7 @@ namespace FarPrototype.Visualizers.BodyTypes
         private void InitializeTable()
         {
             int rowsCount = Body.GetLength();
-
-            string path = Directory.GetCurrentDirectory();
-            bool isRoot = Directory.GetParent(path) == null;
-            rowsCount = isRoot ? rowsCount : ++rowsCount;
-
-            //rowsCount = Math.Min(Height - 5, rowsCount);
+            rowsCount = Math.Min(Height - 5, rowsCount);
 
             Table = new string[rowsCount, TableHeader.Length];
         }

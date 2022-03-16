@@ -2,7 +2,7 @@
 
 namespace FarPrototype.Structs
 {
-    internal abstract class ViewFooter : Rect, IUpdatable
+    internal class ViewFooter : Rect, IUpdatable
     {
         private const int HEIGHT = 2;
 
@@ -18,7 +18,7 @@ namespace FarPrototype.Structs
             UpdateDirectoryInfo(folders, files);
             InitHighlitedInfo();
         }
-        protected abstract void InitHighlitedInfo();
+        protected virtual void InitHighlitedInfo() { }
         private void UpdateDirectoryInfo(DirectoryInfo[] folders, FileInfo[] files)
         {
             int foldersCount = folders.Length;
