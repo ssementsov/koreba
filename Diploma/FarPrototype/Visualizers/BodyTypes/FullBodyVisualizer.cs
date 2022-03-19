@@ -1,6 +1,5 @@
-﻿using FarPrototype.Settings;
-using FarPrototype.Structs;
-using System.Linq;
+﻿using FarPrototype.Models;
+using FarPrototype.Settings;
 
 namespace FarPrototype.Visualizers.BodyTypes
 {
@@ -8,10 +7,17 @@ namespace FarPrototype.Visualizers.BodyTypes
     {
         private const string DATE_FORMAT = "dd.MM.yy";
         private const string TIME_FORMAT = "hh:mm";
+        private const int SIZE_COLUMN_WIDTH = 6;
 
         public FullBodyVisualizer(ViewBody body, int height, int width) 
             : base(body, height, width) { }
-
+        public override void PrepareTable()
+        {
+            FillTable();
+            CalculateColumnsWidth();
+            AdjustName();
+            AbjustSize();
+        }
         public override void Draw()
         {
             Console.BackgroundColor = VisualSettings.Background;
@@ -57,7 +63,6 @@ namespace FarPrototype.Visualizers.BodyTypes
             firstLine += $"{Border.TopRightCorner}\n";
             Write(firstLine, VisualSettings.BorderForeground);
 
-
             Write($"{Border.VerticalDoubleLine}");
             for (int i = 0; i < TableHeader.Length; i++)
             {
@@ -74,10 +79,13 @@ namespace FarPrototype.Visualizers.BodyTypes
 
             for (int i = 0; i < Table.GetLength(0); i++)
             {
-                Write($"{Border.VerticalDoubleLine}");
+                bool isSelected = i == Body.SelectedRaw;
+                ConsoleColor background = isSelected ? VisualSettings.FocusBackground : VisualSettings.Background;
+
+                Write($"{Border.VerticalDoubleLine}", VisualSettings.BorderForeground);
                 for (int j = 0; j < Table.GetLength(1); j++)
                 {
-                    Write($"{Table[i, j]}", VisualSettings.TextForeground);
+                    Write($"{Table[i, j]}", VisualSettings.TextForeground, background);
                     if (Table[i, j].Length < ColumnsWidth[j])
                     {
                         Write($"{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
@@ -87,7 +95,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                         Write($"{Border.VerticalSingleLine}", VisualSettings.BorderForeground);
                     }
                 }
-                Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground);
+                Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground, VisualSettings.Background);
             }
 
             string lastLine = $"{Border.LeftVerticalDoubleLineIntersectSingle}";
@@ -113,16 +121,8 @@ namespace FarPrototype.Visualizers.BodyTypes
         {
             ColumnsWidth = new int[]
             {
-                0, 0, 6, DATE_FORMAT.Length, TIME_FORMAT.Length
+                0, 0, SIZE_COLUMN_WIDTH, DATE_FORMAT.Length, TIME_FORMAT.Length
             };
-        }
-
-        public override void PrepareTable()
-        {
-            FillTable();
-            CalculateColumnsWidth();
-            AdjustName();
-            AbjustSize();
         }
 
         private void FillTable()
@@ -130,21 +130,22 @@ namespace FarPrototype.Visualizers.BodyTypes
             InitializeTable();
 
             string path = Directory.GetCurrentDirectory();
+
             DirectoryInfo parent = Directory.GetParent(path);
             int row = 0;
-            //if (parent != null)
-            //{
-            //    Table[row, 0] = "..";
-            //    Table[row, 1] = string.Empty;
-            //    Table[row, 2] = "Up";
-            //    Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
-            //    Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
-            //    row++;
-            //}
-
-            for (int i = 0; i < Body.GetLength(); i++, row++)
+            if (parent != null)
             {
-                FileSystemInfo info = Body[i].Info;
+                Table[row, 0] = "..";
+                Table[row, 1] = string.Empty;
+                Table[row, 2] = "Up";
+                Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
+                Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
+                row++;
+            }
+
+            for (int i = row; i < Body.GetLength(); i++, row++)
+            {
+                FileSystemInfo info = Body[i];
                 Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
 
                 if (info is DirectoryInfo dir)
@@ -222,7 +223,7 @@ namespace FarPrototype.Visualizers.BodyTypes
             long value = long.Parse(size);
             int count = 0;
 
-            if (value / 1000000 >= 1)
+            if (value / Math.Pow(10, SIZE_COLUMN_WIDTH) >= 1)
             {
                 value /= 1024;
                 count++;

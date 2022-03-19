@@ -1,4 +1,4 @@
-﻿using FarPrototype.Structs;
+﻿using FarPrototype.Models;
 
 namespace FarPrototype
 {
@@ -15,15 +15,14 @@ namespace FarPrototype
         private float WidthScale { init => _widthScale = Math.Clamp(value, MIN_SCALE, 1f); }
         public ViewBody Body { get; private set; }
         public ViewFooter Footer { get; private set; }
-        public bool IsActive { get; set; }
 
-        //public Vector2 Origin { get; private set; }
+        public float OriginScale { get; init; }
 
-        public View(float heigthScale, float widthScale, bool isActive = false)
+        public View(float heigthScale, float widthScale, float originScale)
         {
             HeightScale = heigthScale;
             WidthScale = widthScale;
-            IsActive = isActive;
+            OriginScale = originScale;
             Footer = new ViewFooter(Width);
             Body = new ViewBody();
 
@@ -37,14 +36,14 @@ namespace FarPrototype
             Body.UpdateState(CurrentDirectoryPath);
         }
 
-        public void HighliteElement(int number)
+        public void SelectRaw(int number)
         {
-            Body.HighliteElement(number);
+            Body.SelectedRaw = number;
         }
 
-        public Element GetHighlited()
+        public int GetSelectedRawNumber()
         {
-            return Body.GetHighlitedElement();
+            return Body.SelectedRaw;
         }
     }
 }

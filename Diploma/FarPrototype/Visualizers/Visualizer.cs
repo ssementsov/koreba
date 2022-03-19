@@ -2,27 +2,27 @@
 {
     internal abstract class Visualizer
     {
-        protected void Write(string s)
+        protected void Write(string s, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
         {
-            Console.Write(s);
+            SetBackgroundColor(backgroundColor);
+            Write(s, foregroundColor);
         }
         protected void Write(string s, ConsoleColor foregroundColor)
         {
             SetForegroundColor(foregroundColor);
             Write(s);
         }
-        protected void WriteLine(string s)
+        protected void Write(string s)
         {
-            Console.WriteLine(s);
-        }
-        protected void WriteLine(string s, ConsoleColor foregroundColor)
-        {
-            SetForegroundColor(foregroundColor);
-            WriteLine(s);
+            Console.Write(s);
         }
         private void SetForegroundColor(ConsoleColor foregroundColor)
         {
             Console.ForegroundColor = foregroundColor;
         } 
+        private void SetBackgroundColor(ConsoleColor backgroundColor)
+        {
+            Console.BackgroundColor = backgroundColor;
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using FarPrototype.Structs;
-using FarPrototype.Visualizers.BodyTypes;
+﻿using FarPrototype.Visualizers.BodyTypes;
 
 namespace FarPrototype.Visualizers
 {

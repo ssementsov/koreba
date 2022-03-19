@@ -1,6 +1,6 @@
 ﻿using FarPrototype.Events;
 
-namespace FarPrototype.Structs
+namespace FarPrototype.Models
 {
     internal class ViewFooter : Rect, IUpdatable
     {

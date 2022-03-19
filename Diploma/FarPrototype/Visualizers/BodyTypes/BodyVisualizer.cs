@@ -1,4 +1,4 @@
-﻿using FarPrototype.Structs;
+﻿using FarPrototype.Models;
 
 namespace FarPrototype.Visualizers.BodyTypes
 {
@@ -22,7 +22,6 @@ namespace FarPrototype.Visualizers.BodyTypes
         public abstract void Draw();
         protected abstract void InitializeHeader();
         protected abstract void InitializeColumnsWidth();
-
         public abstract void PrepareTable();
     }
 }

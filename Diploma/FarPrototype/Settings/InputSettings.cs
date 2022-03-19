@@ -2,6 +2,7 @@
 {
     internal static class InputSettings
     {
+        public static ConsoleKey Exit { get; } = ConsoleKey.Escape;
         public static ConsoleKey Up { get; } = ConsoleKey.UpArrow;
         public static ConsoleKey Down { get; } = ConsoleKey.DownArrow;
         public static ConsoleKey Left { get; } = ConsoleKey.LeftArrow;

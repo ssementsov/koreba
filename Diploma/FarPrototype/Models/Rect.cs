@@ -1,4 +1,4 @@
-﻿namespace FarPrototype.Structs
+﻿namespace FarPrototype.Models
 {
     internal abstract class Rect
     {
