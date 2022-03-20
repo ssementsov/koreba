@@ -5,20 +5,22 @@
         public Header Header { get; init; }
         public View[] Views { get; init; }
         public Footer Footer { get; init; }
+
         private int _selectedViewNumber;
         public int SelectedView
         {
             get => _selectedViewNumber;
             set
             {
-                if (value > Views.Length)
-                {
-                    _selectedViewNumber = value - Views.Length;
-                }
-                else if (value < Views.Length)
-                {
-                    _selectedViewNumber = value + Views.Length;
-                }
+                Views[_selectedViewNumber].IsSelected = false;
+
+                _selectedViewNumber = value >= Views.Length ? 
+                    value - Views.Length : 
+                    value < 0 ? 
+                    value + Views.Length : 
+                    value;
+
+                Views[_selectedViewNumber].IsSelected = true;
             }
         }
 
@@ -29,7 +31,6 @@
                 throw new ArgumentException("Amount of views should be greater than 0");
             }
 
-            _selectedViewNumber = 0;
             Views = new View[viewsCount];
 
             float origin = 0;
@@ -40,12 +41,16 @@
                 Views[i] = view;
                 origin += viewWidth;
             }
+
+            SelectedView = 0;
         }
 
-        public void UpdateState()
+        public void UpdateAllViews(string path)
         {
-            // TODO : Сюда нужно передать строку через инпут
-            Views[_selectedViewNumber].UpdateState(Directory.GetCurrentDirectory());
+            foreach (var view in Views)
+            {
+                UpdateView(view, path);
+            }
         }
 
         public int GetSelectedNumber()
@@ -56,6 +61,16 @@
         public void SelectElement(int number)
         {
             Views[_selectedViewNumber].SelectRaw(number);
+        }
+
+        public void UpdateSelectedView(string path)
+        {
+            UpdateView(Views[_selectedViewNumber], path);
+        }
+
+        private void UpdateView(View view, string path)
+        {
+            view.Update(path);
         }
     }
 }

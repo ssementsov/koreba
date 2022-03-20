@@ -9,34 +9,44 @@ namespace FarPrototype.Visualizers.BodyTypes
         private const string TIME_FORMAT = "hh:mm";
         private const int SIZE_COLUMN_WIDTH = 6;
 
-        public FullBodyVisualizer(ViewBody body, int height, int width) 
-            : base(body, height, width) { }
+        public FullBodyVisualizer(ViewBody body, float heigthScale, float widthScale, float originScale) 
+            : base(body, heigthScale, widthScale, originScale) { }
         public override void PrepareTable()
         {
             FillTable();
             CalculateColumnsWidth();
             AdjustName();
             AbjustSize();
+
+
         }
         public override void Draw()
         {
             Console.BackgroundColor = VisualSettings.Background;
+            var path = $" {Directory.GetCurrentDirectory()} ";
 
-            string path = Directory.GetCurrentDirectory();
+            var pathBackground = Body.IsSelected ? VisualSettings.FocusBackground : VisualSettings.Background;
+            var pathForeground = Body.IsSelected ? VisualSettings.TextFocusForeground : VisualSettings.TextForeground;
 
-            int count = Width - path.Length - 4;
-            int half = count / 2;
+            var count = Width - path.Length - 2;
+            var half = count / 2;
 
-            string firstLine = string.Empty;
-            if (path.Length + 4 > Width)
+            var firstLine = string.Empty;
+            if (path.Length + 2 > Width)
             {
-                int index = path.Length - Width + 4;
-                firstLine = $"{Border.TopLeftCorner} {path[0..3]}\u2026{path[(3+index + 1)..]} ";
+                int index = path.Length + 2 - Width;
+                firstLine = $"{Border.TopLeftCorner}{path[0..4]}\u2026{path[(4+index + 1)..]}";
+
+                Write($"{Border.TopLeftCorner}", VisualSettings.BorderForeground);
+                Write($"{path[0..4]}\u2026{path[(4+index + 1)..]}", pathForeground, pathBackground);
+
             }
             else
             {
                 firstLine = $"{Border.TopLeftCorner}{new string(Border.HorizontalDoubleLine, half)}" +
-                                   $" {path} ";
+                                   $"{path}";
+                Write($"{Border.TopLeftCorner}{new string(Border.HorizontalDoubleLine, half)}", VisualSettings.BorderForeground);
+                Write($"{path}", pathForeground, pathBackground);
             }
 
             int length = 1;
@@ -50,18 +60,19 @@ namespace FarPrototype.Visualizers.BodyTypes
 
                 if (length > firstLine.Length)
                 {
+                    var s = new string(Border.HorizontalDoubleLine, length - firstLine.Length - 1);
+                    Write($"{s}", VisualSettings.BorderForeground, VisualSettings.Background);
+
                     firstLine += new string(Border.HorizontalDoubleLine, length - firstLine.Length - 1);
 
                     if (i < TableHeader.Length - 1 && TableHeader[i + 1].Length > 0)
                     {
-                        firstLine += Border.DoubleHorizontalDownSingle;
+                        firstLine += Border.DoubleHorizontalSingleVertical;
+                        Write($"{Border.DoubleHorizontalSingleVertical}");
                     }
                 }
-                
-
             }
-            firstLine += $"{Border.TopRightCorner}\n";
-            Write(firstLine, VisualSettings.BorderForeground);
+            WriteLine($"{Border.TopRightCorner}");
 
             Write($"{Border.VerticalDoubleLine}");
             for (int i = 0; i < TableHeader.Length; i++)
@@ -69,18 +80,18 @@ namespace FarPrototype.Visualizers.BodyTypes
                 int alignment = (ColumnsWidth[i] - TableHeader[i].Length);
                 string s = $"{new string(' ', alignment/2)}{TableHeader[i]}{new string(' ', alignment - alignment/2)}";
                 Write(s, VisualSettings.TextForeground);
-                if (i > 0 && i < 4)
+                if (i is > 0 and < 4)
                 {
                     Write($"{Border.VerticalSingleLine}", VisualSettings.BorderForeground);
                 }
             }
+
             Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground);
 
 
             for (int i = 0; i < Table.GetLength(0); i++)
             {
-                bool isSelected = i == Body.SelectedRaw;
-                ConsoleColor background = isSelected ? VisualSettings.FocusBackground : VisualSettings.Background;
+                var background = Body.IsSelected && Body.SelectedRaw == i ? VisualSettings.FocusBackground : VisualSettings.Background;
 
                 Write($"{Border.VerticalDoubleLine}", VisualSettings.BorderForeground);
                 for (int j = 0; j < Table.GetLength(1); j++)
@@ -90,15 +101,17 @@ namespace FarPrototype.Visualizers.BodyTypes
                     {
                         Write($"{new string(' ', ColumnsWidth[j] - Table[i, j].Length)}", VisualSettings.TextForeground);
                     } 
+
                     if (j > 0 && j < Table.GetLength(1) - 1)
                     {
                         Write($"{Border.VerticalSingleLine}", VisualSettings.BorderForeground);
                     }
                 }
+
                 Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground, VisualSettings.Background);
             }
 
-            string lastLine = $"{Border.LeftVerticalDoubleLineIntersectSingle}";
+            string lastLine = $"{Border.LeftDoubleVerticalSingleHorizontal}";
             for (int i = 0; i < Table.GetLength(1); i++)
             {
                 lastLine += new string(Border.HorizontalSingleLine, ColumnsWidth[i]);
@@ -107,7 +120,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                     lastLine += $"{Border.UpAndHorizontal}";
                 }
             }
-            lastLine += $"{Border.RightVerticalDoubleLineIntersectSingle}\n";
+            lastLine += $"{Border.RightDoubleVerticalSingleHorizontal}\n";
             Write(lastLine);
         }
         protected override void InitializeHeader()
@@ -131,33 +144,34 @@ namespace FarPrototype.Visualizers.BodyTypes
 
             string path = Directory.GetCurrentDirectory();
 
-            DirectoryInfo parent = Directory.GetParent(path);
-            int row = 0;
-            if (parent != null)
+            for (int row = 0; row < Body.GetLength(); row++)
             {
-                Table[row, 0] = "..";
-                Table[row, 1] = string.Empty;
-                Table[row, 2] = "Up";
-                Table[row, 3] = $"{parent.CreationTime.ToString(DATE_FORMAT)}";
-                Table[row, 4] = $"{parent.CreationTime.ToString(TIME_FORMAT)}";
-                row++;
-            }
-
-            for (int i = row; i < Body.GetLength(); i++, row++)
-            {
-                FileSystemInfo info = Body[i];
-                Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
-
-                if (info is DirectoryInfo dir)
+                var info = Body[row];
+                if (row == 0)
                 {
-                    Table[row, 1] = string.Empty;
-                    Table[row, 2] = "Folder";
+                    var parent = Directory.GetParent(path);
+                    if (parent != null)
+                    {
+                        Table[row, 0] = "..";
+                        Table[row, 1] = string.Empty;
+                        Table[row, 2] = "Up";
+                    }
                 }
                 else
                 {
-                    FileInfo file = info as FileInfo;
-                    Table[row, 1] = Path.GetExtension(file.FullName)[1..];
-                    Table[row, 2] = file.Length.ToString();
+                    Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
+
+                    if (info is DirectoryInfo dir)
+                    {
+                        Table[row, 1] = string.Empty;
+                        Table[row, 2] = "Folder";
+                    }
+                    else
+                    {
+                        var file = info as FileInfo;
+                        Table[row, 1] = Path.GetExtension(file.FullName)[1..];
+                        Table[row, 2] = file.Length.ToString();
+                    }
                 }
 
                 Table[row, 3] = $"{info.CreationTime.ToString(DATE_FORMAT)}";
@@ -259,5 +273,7 @@ namespace FarPrototype.Visualizers.BodyTypes
             result += postfix;
             return result;
         }
+
+
     }
 }

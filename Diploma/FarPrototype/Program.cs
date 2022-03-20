@@ -8,9 +8,10 @@ namespace FarPrototype
         static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
+            var path = Directory.GetCurrentDirectory();
 
             var window = new Window(2);
-            window.UpdateState();
+            window.UpdateAllViews(path);
 
             var visualizer = new ApplicationVisualizer(window);
             visualizer.Update();

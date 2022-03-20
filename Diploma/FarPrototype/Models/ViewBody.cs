@@ -2,9 +2,9 @@
 {
     internal class ViewBody
     {
-        private List<FileSystemInfo> _elements;
+        private readonly List<FileSystemInfo> _elements;
         private int _selectedRaw;
-
+        public bool IsSelected { get; set; }
         public int SelectedRaw
         {
             get => _selectedRaw;
@@ -28,7 +28,7 @@
         }
         public int GetLength() => _elements.Count;
 
-        public void UpdateState(string currentDirectoryPath)
+        public void Update(string currentDirectoryPath)
         {
             _elements.Clear();
 

@@ -2,7 +2,7 @@
 
 namespace FarPrototype.Visualizers
 {
-    internal class ApplicationVisualizer
+    internal sealed class ApplicationVisualizer
     {
         public List<ViewVisualizer> Visualizers { get; set; }
 
@@ -10,10 +10,13 @@ namespace FarPrototype.Visualizers
         {
             Visualizers = new List<ViewVisualizer>();
 
+            var origin = 0f;
+
             foreach (var view in window.Views)
             {
-                var visualizer = new ViewVisualizer(view);
-                Visualizers.Add(visualizer);
+                float widthScale = 1f / window.Views.Length;
+                var vv = new ViewVisualizer(view ,1, widthScale, origin);
+                Visualizers.Add(vv);
             }
         }
 

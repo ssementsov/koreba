@@ -32,6 +32,12 @@ namespace FarPrototype
                 _selectedElement = _window.GetSelectedNumber();
                 _visualizer.Draw();
             }
+            else if (info.Key == InputSettings.SwitchWindow)
+            {
+                _window.SelectedView++;
+                _selectedElement = _window.GetSelectedNumber();
+                _visualizer.Draw();
+            }
         }
         private void SelectElement(int number)
         {

@@ -2,14 +2,17 @@
 
 namespace FarPrototype.Visualizers
 {
-    internal class ViewVisualizer : IDrawer
+    internal class ViewVisualizer : Visualizer, IDrawer
     {
         public BodyVisualizer Body { get; set; }
         public FooterVisualizer Footer { get; set;}
 
-        public ViewVisualizer(View view)
+        public ViewVisualizer(View view, float heigthScale, float widthScale, float originScale)
+            : base(heigthScale, widthScale, originScale) 
         {
-            Body = new FullBodyVisualizer(view.Body, view.Height, view.Width);
+            Body = new FullBodyVisualizer(view.Body, heigthScale, widthScale, originScale);
+
+
         }
 
         public void PrepareBody()
