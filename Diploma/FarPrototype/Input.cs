@@ -17,26 +17,44 @@ namespace FarPrototype
             _selectedElement = window.GetSelectedNumber();
         }
 
-        public void Handle(ConsoleKeyInfo info)
+        public void Handle(ConsoleKeyInfo keyInfo)
         {
-            if (info.Key == InputSettings.Up)
+            if (keyInfo.Key == InputSettings.Up)
             {
                 SelectElement(--_selectedElement);
                 _selectedElement = _window.GetSelectedNumber();
                 _visualizer.Draw();
             }
 
-            else if (info.Key == InputSettings.Down)
+            else if (keyInfo.Key == InputSettings.Down)
             {
                 SelectElement(++_selectedElement);
                 _selectedElement = _window.GetSelectedNumber();
                 _visualizer.Draw();
             }
-            else if (info.Key == InputSettings.SwitchWindow)
+            else if (keyInfo.Key == InputSettings.SwitchWindow)
             {
                 _window.SelectedView++;
                 _selectedElement = _window.GetSelectedNumber();
                 _visualizer.Draw();
+            }
+            else if (keyInfo.Key == InputSettings.Enter)
+            {
+                var rawInfo = _window.GetSelectedInfo();
+
+                if (rawInfo is DirectoryInfo dir)
+                {
+                    _window.UpdateSelectedView(rawInfo.FullName);
+                    _visualizer.UpdateView(_window.SelectedView);
+                    _visualizer.Draw();
+                    _selectedElement = _window.GetSelectedNumber();
+                }
+                else
+                {
+                    var file = rawInfo as FileInfo;
+                    // TODO : Execute file (open or something else depending on the file extension)
+                    // USE STREAMS and using!!!!!!!!!! using (FileStream fs = new FileStream(file.FullName))
+                }
             }
         }
         private void SelectElement(int number)

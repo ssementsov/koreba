@@ -16,6 +16,7 @@
                 }
             }
         }
+        public string CurrentDirectoryPath { get; private set; }
 
         public ViewBody()
         {
@@ -27,9 +28,9 @@
             private set => _elements[i] = value;
         }
         public int GetLength() => _elements.Count;
-
         public void Update(string currentDirectoryPath)
         {
+            CurrentDirectoryPath = currentDirectoryPath;
             _elements.Clear();
 
             var directories = DirectoryReader.GetDirectories(currentDirectoryPath);

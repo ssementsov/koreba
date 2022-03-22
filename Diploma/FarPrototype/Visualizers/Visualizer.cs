@@ -57,6 +57,7 @@
         protected void WriteLine(string s)
         {
             Console.WriteLine(s);
+            Console.CursorLeft = Origin;
         }
         private void SetForegroundColor(ConsoleColor foregroundColor)
         {

@@ -4,27 +4,40 @@ namespace FarPrototype.Visualizers
 {
     internal sealed class ApplicationVisualizer
     {
-        public List<ViewVisualizer> Visualizers { get; set; }
+        public ViewVisualizer[] Visualizers { get; set; }
 
         public ApplicationVisualizer(Window window)
         {
-            Visualizers = new List<ViewVisualizer>();
+            Visualizers = new ViewVisualizer[window.Views.Length];
 
             var origin = 0f;
 
-            foreach (var view in window.Views)
+            for (int i = 0; i < Visualizers.Length; i++)
             {
                 float widthScale = 1f / window.Views.Length;
-                var vv = new ViewVisualizer(view ,1, widthScale, origin);
-                Visualizers.Add(vv);
+                var vv = new ViewVisualizer(window.Views[i], 1, widthScale, origin);
+                Visualizers[i] = vv;
+                origin += widthScale;
             }
         }
 
-        public void Update()
+        public void UpdateAllViews()
         {
             foreach (var visualizer in Visualizers)
             {
                 visualizer.PrepareBody();
+            }
+        }
+
+        public void UpdateView(int number)
+        {
+            if (number >= 0 && number < Visualizers.Length)
+            {
+                Visualizers[number].PrepareBody();
+            }
+            else
+            {
+                throw new ArgumentException($"View with index {number} does not exist");
             }
         }
 

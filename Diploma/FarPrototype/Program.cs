@@ -14,7 +14,7 @@ namespace FarPrototype
             window.UpdateAllViews(path);
 
             var visualizer = new ApplicationVisualizer(window);
-            visualizer.Update();
+            visualizer.UpdateAllViews();
             visualizer.Draw();
 
             var input = new Input(window, visualizer);

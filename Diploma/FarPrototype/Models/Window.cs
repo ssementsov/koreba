@@ -37,7 +37,7 @@
             for (int i = 0; i < viewsCount; i++)
             {
                 float viewWidth = (float)1 / viewsCount;
-                var view = new View(1, viewWidth, origin);
+                var view = new View();
                 Views[i] = view;
                 origin += viewWidth;
             }
@@ -51,6 +51,11 @@
             {
                 UpdateView(view, path);
             }
+        }
+
+        public FileSystemInfo GetSelectedInfo()
+        {
+            return Views[_selectedViewNumber].GetSelectedInfo();
         }
 
         public int GetSelectedNumber()

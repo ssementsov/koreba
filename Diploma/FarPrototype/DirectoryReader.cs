@@ -2,30 +2,37 @@
 {
     internal static class DirectoryReader
     {
-        public static DirectoryInfo[] GetDirectories(string currentDirectoryPath)
+        public static List<DirectoryInfo> GetDirectories(string currentDirectoryPath)
         {
-            string[] pathes = Directory.GetDirectories(currentDirectoryPath);
-            DirectoryInfo[] info = new DirectoryInfo[pathes.Length];
+            var directories = new List<DirectoryInfo>();
 
-            for (var i = 0; i < pathes.Length; i++)
+            foreach (var path in Directory.GetDirectories(currentDirectoryPath))
             {
-                info[i] = new DirectoryInfo(pathes[i]);
+                var info = new DirectoryInfo(path);
+                if (info.Attributes == FileAttributes.Directory)
+                {
+                    directories.Add(info);
+                }
             }
 
-            return info;
+            return directories;
         }
 
-        public static FileInfo[] GetFiles(string currentDirectoryPath)
+        public static List<FileInfo> GetFiles(string currentDirectoryPath)
         {
-            string[] pathes = Directory.GetFiles(currentDirectoryPath);
-            FileInfo[] info = new FileInfo[pathes.Length];
+            var files = new List<FileInfo>();
 
-            for (var i = 0; i < pathes.Length; i++)
+            foreach (var path in Directory.GetFiles(currentDirectoryPath))
             {
-                info[i] = new FileInfo(pathes[i]);
+                var info = new FileInfo(path);
+
+                if (info.Attributes != FileAttributes.Hidden)
+                {
+                    files.Add(info);
+                }
             }
 
-            return info;
+            return files;
         }
     }
 }

@@ -22,8 +22,9 @@ namespace FarPrototype.Visualizers.BodyTypes
         }
         public override void Draw()
         {
+            Console.SetCursorPosition(Origin, 0);
             Console.BackgroundColor = VisualSettings.Background;
-            var path = $" {Directory.GetCurrentDirectory()} ";
+            var path = $" {Body.CurrentDirectoryPath} ";
 
             var pathBackground = Body.IsSelected ? VisualSettings.FocusBackground : VisualSettings.Background;
             var pathForeground = Body.IsSelected ? VisualSettings.TextFocusForeground : VisualSettings.TextForeground;
@@ -86,7 +87,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 }
             }
 
-            Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground);
+            WriteLine($"{Border.VerticalDoubleLine}", VisualSettings.BorderForeground);
 
 
             for (int i = 0; i < Table.GetLength(0); i++)
@@ -94,6 +95,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 var background = Body.IsSelected && Body.SelectedRaw == i ? VisualSettings.FocusBackground : VisualSettings.Background;
 
                 Write($"{Border.VerticalDoubleLine}", VisualSettings.BorderForeground);
+
                 for (int j = 0; j < Table.GetLength(1); j++)
                 {
                     Write($"{Table[i, j]}", VisualSettings.TextForeground, background);
@@ -108,7 +110,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                     }
                 }
 
-                Write($"{Border.VerticalDoubleLine}\n", VisualSettings.BorderForeground, VisualSettings.Background);
+                WriteLine($"{Border.VerticalDoubleLine}", VisualSettings.BorderForeground, VisualSettings.Background);
             }
 
             string lastLine = $"{Border.LeftDoubleVerticalSingleHorizontal}";
@@ -121,7 +123,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 }
             }
             lastLine += $"{Border.RightDoubleVerticalSingleHorizontal}\n";
-            Write(lastLine);
+            WriteLine(lastLine);
         }
         protected override void InitializeHeader()
         {
@@ -142,35 +144,32 @@ namespace FarPrototype.Visualizers.BodyTypes
         {
             InitializeTable();
 
-            string path = Directory.GetCurrentDirectory();
-
             for (int row = 0; row < Body.GetLength(); row++)
             {
                 var info = Body[row];
+
+                Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
+
+                if (info is DirectoryInfo dir)
+                {
+                    Table[row, 1] = string.Empty;
+                    Table[row, 2] = "Folder";
+                }
+                else
+                {
+                    var file = info as FileInfo;
+                    Table[row, 1] = Path.GetExtension(file.FullName)[1..];
+                    Table[row, 2] = file.Length.ToString();
+                }
+
                 if (row == 0)
                 {
-                    var parent = Directory.GetParent(path);
-                    if (parent != null)
+                    var parent = new DirectoryInfo(Body.CurrentDirectoryPath).Parent;
+                    if (parent != null && parent.Attributes != FileAttributes.Hidden)
                     {
                         Table[row, 0] = "..";
                         Table[row, 1] = string.Empty;
                         Table[row, 2] = "Up";
-                    }
-                }
-                else
-                {
-                    Table[row, 0] = Path.GetFileNameWithoutExtension(info.FullName);
-
-                    if (info is DirectoryInfo dir)
-                    {
-                        Table[row, 1] = string.Empty;
-                        Table[row, 2] = "Folder";
-                    }
-                    else
-                    {
-                        var file = info as FileInfo;
-                        Table[row, 1] = Path.GetExtension(file.FullName)[1..];
-                        Table[row, 2] = file.Length.ToString();
                     }
                 }
 
