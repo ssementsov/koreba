@@ -19,13 +19,18 @@ namespace FarPrototype
 
             var input = new Input(window, visualizer);
 
-            //Console.SetCursorPosition(Console.WindowWidth/2, 0);
-            //Console.WriteLine("hello");
-            //Console.CursorLeft = Console.WindowWidth/2;
+            //var lastWidth = Console.WindowWidth;
 
             while (true)
             {
-                ConsoleKeyInfo key = Console.ReadKey();
+                //if (lastWidth != Console.WindowWidth)
+                //{
+                //    visualizer.Draw();
+                //}
+
+                //lastWidth = Console.WindowWidth;
+
+                var key = Console.ReadKey();
                 input.Handle(key);
             }
         }

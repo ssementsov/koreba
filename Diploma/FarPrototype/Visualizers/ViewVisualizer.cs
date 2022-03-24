@@ -11,8 +11,6 @@ namespace FarPrototype.Visualizers
             : base(heigthScale, widthScale, originScale) 
         {
             Body = new FullBodyVisualizer(view.Body, heigthScale, widthScale, originScale);
-
-
         }
 
         public void PrepareBody()

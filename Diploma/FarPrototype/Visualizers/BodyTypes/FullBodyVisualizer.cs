@@ -17,8 +17,6 @@ namespace FarPrototype.Visualizers.BodyTypes
             CalculateColumnsWidth();
             AdjustName();
             AbjustSize();
-
-
         }
         public override void Draw()
         {
