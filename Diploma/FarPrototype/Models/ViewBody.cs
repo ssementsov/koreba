@@ -2,7 +2,7 @@
 {
     internal class ViewBody
     {
-        private readonly List<FileSystemInfo> _elements;
+        private readonly IList<FileSystemInfo> _elements;
         private int _selectedRaw;
         public bool IsSelected { get; set; }
         public int SelectedRaw

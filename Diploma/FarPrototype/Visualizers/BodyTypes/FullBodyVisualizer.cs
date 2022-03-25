@@ -20,6 +20,8 @@ namespace FarPrototype.Visualizers.BodyTypes
         }
         public override void Draw()
         {
+            CalculateColumnsWidth();
+
             Console.SetCursorPosition(Origin, 0);
             Console.BackgroundColor = VisualSettings.Background;
             var path = $" {Body.CurrentDirectoryPath} ";
@@ -195,6 +197,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                     max = currentLength;
                 }
             }
+
             ColumnsWidth[1] = max;
 
             int length = Width - ColumnsWidth.Length;
@@ -202,6 +205,8 @@ namespace FarPrototype.Visualizers.BodyTypes
             {
                 length -= ColumnsWidth[i];
             }
+
+
             ColumnsWidth[0] = length;
         }
 

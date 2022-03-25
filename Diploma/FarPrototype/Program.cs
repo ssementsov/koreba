@@ -19,17 +19,38 @@ namespace FarPrototype
 
             var input = new Input(window, visualizer);
 
-            //var lastWidth = Console.WindowWidth;
+            var lastWidth = Console.WindowWidth;
 
+            //while (true)
+            //{
+            //    var key = Console.ReadKey();
+            //    input.Handle(key);
+            //}
+
+            LoadAsync(() =>
+            {
+                while (true)
+                {
+                    if (lastWidth != Console.WindowWidth)
+                    {
+                        lastWidth = Console.WindowWidth;
+                        visualizer.Draw();
+                    }
+                }
+            });
+
+            HandleInput(input);
+        }
+
+        private static async void LoadAsync(Action action)
+        {
+            await Task.Run(() => action);
+        }
+
+        private static void HandleInput(Input input)
+        {
             while (true)
             {
-                //if (lastWidth != Console.WindowWidth)
-                //{
-                //    visualizer.Draw();
-                //}
-
-                //lastWidth = Console.WindowWidth;
-
                 var key = Console.ReadKey();
                 input.Handle(key);
             }

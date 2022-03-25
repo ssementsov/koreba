@@ -1,29 +1,35 @@
-﻿using System;
-using FarPrototype.Models;
+﻿using FarPrototype.Models;
 using FarPrototype.Visualizers.BodyTypes.Columns;
+using FarPrototype.Visualizers.BodyTypes.TestVisuzlizers;
 
 namespace FarPrototype.Visualizers.BodyTypes
 {
-    internal class FullTable : Rect
+    internal class FullTable : Table
     {
         private const string DATE_FORMAT = "dd.MM.yy";
         private const string TIME_FORMAT = "hh:mm";
         private const int SIZE_COLUMN_WIDTH = 6;
 
         private string[,] _data;
-        private Column[] _columns;
+        private readonly Column[] _columns;
 
         public FullTable(ViewBody body, float heigthScale, float widthScale, float originScale) 
             : base(heigthScale, widthScale, originScale)
         {
+            var c1 = new ExtensionColumn(GetMaxExtencionLength(body));
+            var c2 = new SizeColumn(SIZE_COLUMN_WIDTH);
+            var c3 = new DateColumn(DATE_FORMAT.Length);
+            var c4 = new TimeColumn(TIME_FORMAT.Length);
+            var c0 = new NameColumn(CalculateNameColumnWidth());
+
             _columns = new Column[]
             {
-                new ExtensionColumn(GetMaxExtencionLength(body)),
-                new SizeColumn(SIZE_COLUMN_WIDTH),
-                new DateColumn(DATE_FORMAT.Length),
-                new TimeColumn(TIME_FORMAT.Length)
+                c0, c1, c2, c3, c4
             };
+        }
 
+        private int CalculateNameColumnWidth()
+        {
             var nameColumnWidth = Width - 1;
 
             for (var i = 0; i < _columns.Length; i++)
@@ -31,14 +37,7 @@ namespace FarPrototype.Visualizers.BodyTypes
                 nameColumnWidth -= _columns[i].Width - 1;
             }
 
-            Array.Resize(ref _columns, _columns.Length + 1);
-
-            for (var i = _columns.Length - 1; i > 0; i--)
-            {
-                _columns[i] = _columns[i - 1];
-            }
-
-            _columns[0] = new NameColumn(nameColumnWidth);
+            return nameColumnWidth;
         }
 
         public void FillData(ViewBody body)
@@ -74,8 +73,8 @@ namespace FarPrototype.Visualizers.BodyTypes
                     }
                 }
 
-                //_data[i, 3] = $"{info.CreationTime.ToString(DATE_FORMAT)}";
-                //_data[i, 4] = $"{info.CreationTime.ToString(TIME_FORMAT)}";
+                _data[i, 3] = $"{info.CreationTime.ToString(DATE_FORMAT)}";
+                _data[i, 4] = $"{info.CreationTime.ToString(TIME_FORMAT)}";
             }
         }
 
@@ -90,5 +89,12 @@ namespace FarPrototype.Visualizers.BodyTypes
 
             return maxLength;
         }
+
+        //public string[,] GetFormatted()
+        //{
+        //    var data = new string[_data.GetLength(0), _data.GetLength(1)];
+
+
+        //}
     }
 }
